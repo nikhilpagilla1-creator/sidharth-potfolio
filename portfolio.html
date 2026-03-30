@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidharth — Freelance Writer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── CSS Variables ─────────────────────────────── */
+    :root {
+      --bg:        #0d0d0d;
+      --bg-2:      #131313;
+      --bg-3:      #1a1a1a;
+      --surface:   #1f1f1f;
+      --border:    #2a2a2a;
+      --accent:    #c8a96e;
+      --accent-dim:#7a6440;
+      --text:      #e8e2d9;
+      --text-2:    #9e9890;
+      --text-3:    #5a5650;
+      --white:     #f5f0ea;
+    }
+
+    /* ─── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: default;
+    }
+    img { display: block; width: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ─── Noise overlay ──────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── Nav ────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-2);
+    }
+    .nav-links a {
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--text-2);
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--accent); }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.35;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+    }
+    .hero-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 9vw, 9rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      max-width: 14ch;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.4s;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-tagline {
+      margin-top: 2rem;
+      font-size: 1.05rem;
+      color: var(--text-2);
+      max-width: 45ch;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.7s;
+    }
+    .hero-bottom {
+      margin-top: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1s;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .scroll-hint {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .scroll-hint::before {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--text-3);
+    }
+
+    /* hero floating label */
+    .hero-float-label {
+      position: absolute;
+      top: 50%; right: 4rem;
+      transform: translateY(-50%) rotate(90deg);
+      transform-origin: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.2s;
+    }
+
+    /* ─── Section base ───────────────────────────────── */
+    section { padding: 7rem 4rem; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── About ──────────────────────────────────────── */
+    #about {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 6rem;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .about-left { position: sticky; top: 8rem; }
+    .about-portrait {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    .about-portrait img {
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.3) contrast(1.05);
+      transition: filter 0.5s;
+    }
+    .about-portrait:hover img { filter: grayscale(0) contrast(1); }
+    .portrait-border {
+      position: absolute;
+      inset: -1px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+    .portrait-accent {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      width: 70%; height: 70%;
+      border: 1px solid var(--accent-dim);
+      pointer-events: none;
+      transition: transform 0.4s;
+    }
+    .about-portrait:hover .portrait-accent { transform: translate(-4px, -4px); }
+
+    .about-right { padding-top: 4.5rem; }
+    .about-body {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      line-height: 1.85;
+      max-width: 58ch;
+    }
+    .about-body p + p { margin-top: 1.5rem; }
+    .about-body strong { color: var(--text); font-weight: 500; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 3.5rem;
+      border: 1px solid var(--border);
+    }
+    .stat {
+      padding: 1.5rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: 0.4rem;
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      transition: all 0.2s;
+    }
+    .tag:hover { border-color: var(--accent-dim); color: var(--accent); }
+
+    /* ─── Gallery / Writing ──────────────────────────── */
+    #gallery {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .gallery-header { margin-bottom: 3.5rem; }
+    .gallery-header .section-title { max-width: 20ch; }
+
+    /* tabs */
+    .gallery-tabs {
+      display: flex;
+      gap: 0;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-3);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+    }
+    .tab-btn.active::after { transform: scaleX(1); }
+    .tab-btn:hover { color: var(--text-2); }
+
+    /* photo grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      margin-top: 2.5rem;
+    }
+    .photo-grid.hidden { display: none; }
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--surface);
+    }
+    .photo-item.tall { aspect-ratio: 2/3; grid-row: span 2; }
+    .photo-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
+    .photo-item img {
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      filter: grayscale(0.2);
+    }
+    .photo-item:hover img {
+      transform: scale(1.06);
+      filter: grayscale(0);
+    }
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.25rem;
+    }
+    .photo-item:hover .photo-overlay { opacity: 1; }
+    .photo-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-2);
+    }
+
+    /* Placeholder photo colors for demo */
+    .p1 { background: #1c2028; }
+    .p2 { background: #1e1a16; }
+    .p3 { background: #161c1a; }
+    .p4 { background: #1a1618; }
+    .p5 { background: #1c1e20; }
+    .p6 { background: #181c16; }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-placeholder svg {
+      width: 40px; height: 40px;
+      opacity: 0.15;
+    }
+
+    /* writing grid */
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      margin-top: 2.5rem;
+    }
+    .writing-grid.hidden { display: none; }
+    .writing-card {
+      background: var(--bg-2);
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .writing-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.35s;
+    }
+    .writing-card:hover { background: var(--bg-3); border-color: var(--border); }
+    .writing-card:hover::before { transform: scaleX(1); }
+    .writing-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .writing-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .writing-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .writing-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+    }
+    .writing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+    .writing-excerpt {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+    .writing-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-dim);
+      margin-top: 1.5rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .writing-link:hover { color: var(--accent); gap: 0.75rem; }
+
+    /* ─── Contact ─────────────────────────────────────── */
+    #contact {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+    }
+    .contact-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-left { padding-top: 0.5rem; }
+    .contact-desc {
+      font-size: 1rem;
+      color: var(--text-2);
+      line-height: 1.8;
+      margin-top: 1.5rem;
+    }
+    .contact-channels { margin-top: 2.5rem; }
+    .channel {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .channel:first-child { border-top: 1px solid var(--border); }
+    .channel-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .channel-info { flex: 1; }
+    .channel-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .channel-value {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      margin-top: 0.2rem;
+    }
+
+    /* form */
+    .contact-form { padding-top: 0.5rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 0.6rem;
+    }
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+    .form-textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-3); }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: none;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    footer {
+      padding: 2.5rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--text-3);
+    }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-socials a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--accent); }
+
+    /* ─── Animations ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Mobile ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      section { padding: 5rem 1.5rem; }
+
+      #hero { padding: 7rem 1.5rem 4rem; }
+      .hero-float-label { display: none; }
+
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-left { position: static; }
+      .about-portrait { max-width: 320px; }
+      .about-right { padding-top: 0; }
+      .about-stats { grid-template-columns: repeat(3, 1fr); }
+
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-item.tall { aspect-ratio: 1; grid-row: span 1; }
+      .photo-item.wide { grid-column: span 1; aspect-ratio: 1; }
+
+      .writing-grid { grid-template-columns: 1fr; }
+      .writing-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero-title { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .photo-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr; border: 1px solid var(--border); }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav id="navbar">
+    <div class="nav-logo">Sidharth<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" aria-label="Menu" role="button">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ── Mobile Nav ── -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#gallery" onclick="closeMobile()">Work</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-year">Est. 2017 · Freelance Writer</div>
+    <h1 class="hero-title">
+      Words that <em>stay</em> with you.
+    </h1>
+    <p class="hero-tagline">
+      I write long-form essays, cultural criticism, and narrative journalism for publications that believe ideas still matter.
+    </p>
+    <div class="hero-bottom">
+      <a href="#gallery" class="btn-primary">View Work</a>
+      <span class="scroll-hint">Scroll to explore</span>
+    </div>
+    <span class="hero-float-label">Sidharth · Writer · Mumbai</span>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-left reveal">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">The person<br/><em>behind the page</em></h2>
+        <div class="about-portrait">
+          <!-- Placeholder portrait using SVG pattern -->
+          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" style="height:100%;width:100%;">
+            <rect width="400" height="533" fill="#1a1714"/>
+            <circle cx="200" cy="180" r="80" fill="#2a2520"/>
+            <ellipse cx="200" cy="420" rx="140" ry="100" fill="#2a2520"/>
+            <circle cx="200" cy="180" r="60" fill="#32302a"/>
+            <text x="200" y="490" text-anchor="middle" fill="#4a4640" font-family="serif" font-size="11" letter-spacing="3">SIDHARTH</text>
+          </svg>
+          <div class="portrait-border"></div>
+          <div class="portrait-accent"></div>
+        </div>
+      </div>
+
+      <div class="about-right reveal">
+        <div class="about-body">
+          <p>
+            I'm <strong>Sidharth</strong>, a Mumbai-based freelance writer working at the intersection of culture, technology, and the quietly extraordinary. My work has appeared in <strong>The Hindu</strong>, <strong>Mint Lounge</strong>, <strong>The Wire</strong>, and several international publications.
+          </p>
+          <p>
+            I came to writing through philosophy — a roundabout path that left me perpetually obsessed with the questions underneath things. I'm drawn to stories that resist easy answers, and to the kind of sentence that makes you re-read it twice.
+          </p>
+          <p>
+            When I'm not writing, I'm probably wandering a city I don't know well enough, arguing about cinema, or reading something I'll recommend to people who didn't ask.
+          </p>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-num">7+</div>
+            <div class="stat-label">Years</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Articles</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">40+</div>
+            <div class="stat-label">Publications</div>
+          </div>
+        </div>
+
+        <div class="about-tags">
+          <span class="tag">Long-form Essays</span>
+          <span class="tag">Cultural Criticism</span>
+          <span class="tag">Narrative Journalism</span>
+          <span class="tag">Travel Writing</span>
+          <span class="tag">Tech &amp; Society</span>
+          <span class="tag">Book Reviews</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gallery / Writing ── -->
+  <section id="gallery">
+    <div class="gallery-header reveal">
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">Photography &amp; <em>Writing</em></h2>
+      <div class="gallery-tabs">
+        <button class="tab-btn active" onclick="showTab('photos', this)">Photography</button>
+        <button class="tab-btn" onclick="showTab('writing', this)">Writing</button>
+      </div>
+    </div>
+
+    <!-- Photos -->
+    <div class="photo-grid" id="photos">
+      <div class="photo-item tall p1">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Dharavi, 2023</span></div>
+      </div>
+      <div class="photo-item p2">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Monsoon Light</span></div>
+      </div>
+      <div class="photo-item p3">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">CSMT Station</span></div>
+      </div>
+      <div class="photo-item wide p4">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Marine Drive at Dusk</span></div>
+      </div>
+      <div class="photo-item p5">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Kochi Backwaters</span></div>
+      </div>
+      <div class="photo-item p6">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Street, 2022</span></div>
+      </div>
+    </div>
+
+    <!-- Writing -->
+    <div class="writing-grid hidden" id="writing">
+      <div class="writing-card featured">
+        <div>
+          <div class="writing-meta">
+            <span class="writing-tag">Essay · Featured</span>
+            <span class="writing-date">March 2024</span>
+          </div>
+          <h3 class="writing-title">The City as a Second Language</h3>
+          <p class="writing-excerpt">Mumbai doesn't ask to be understood. It simply proceeds — loud, unannounced, without regard for whether you're keeping up. To live here is to be permanently mid-sentence in a conversation you didn't start.</p>
+          <a href="#" class="writing-link">Read in Mint Lounge →</a>
+        </div>
+        <div>
+          <p class="writing-excerpt" style="margin-top:0.5rem; font-style:italic; color:var(--text-3); font-family:'Playfair Display', serif; font-size:1.1rem; line-height:1.9;">
+            "There is a particular kind of loneliness that belongs only to crowded places — not the loneliness of absence but of surplus, of being surrounded by lives that move at cross-purposes to your own."
+          </p>
+        </div>
+      </div>
+
+      <div class="writing-card">
+        <div class="writing-meta">
+          <span class="writing-tag">Criticism</span>
+          <span class="writing-date">Jan 2024</span>
+        </div>
+        <h3 class="writing-title">What We Talk About When We Talk About AI Art</h3>
+        <p class="writing-excerpt">The question isn't whether machines can make art. The question is whether we can survive the answer if they can.</p>
+        <a href="#" class="writing-link">Read in The Wire →</a>
+      </div>
+
+      <div class="writing-card">
+        <div class="writing-meta">
+          <span class="writing-tag">Travel</span>
+          <span class="writing-date">Nov 2023</span>
+        </div>
+        <h3 class="writing-title">Notes from a Slow Train Through Rajasthan</h3>
+        <p class="writing-excerpt">Every compartment is a different country. By Jaipur, I had already changed three times — in altitude, in light, and in something harder to name.</p>
+        <a href="#" class="writing-link">Read in The Hindu →</a>
+      </div>
+
+      <div class="writing-card">
+        <div class="writing-meta">
+          <span class="writing-tag">Book Review</span>
+          <span class="writing-date">Sep 2023</span>
+        </div>
+        <h3 class="writing-title">Arundhati Roy and the Grammar of Rage</h3>
+        <p class="writing-excerpt">Thirty years on, Roy's debut novel reads not as a love story but as a theory of how power disguises itself as fate.</p>
+        <a href="#" class="writing-link">Read in Scroll →</a>
+      </div>
+
+      <div class="writing-card">
+        <div class="writing-meta">
+          <span class="writing-tag">Culture</span>
+          <span class="writing-date">Jul 2023</span>
+        </div>
+        <h3 class="writing-title">The Afternoon as a Vanishing Act</h3>
+        <p class="writing-excerpt">We have colonised every hour of the day with productivity. The idle afternoon — once common, once cherished — has become almost contraband.</p>
+        <a href="#" class="writing-link">Read in Livemint →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Let's work <em>together</em></h2>
+        <p class="contact-desc">
+          I'm available for commissions, editorial collaborations, and long-form projects. If you have a story that needs telling, I'd like to hear it.
+        </p>
+
+        <div class="contact-channels">
+          <div class="channel">
+            <div class="channel-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="channel-info">
+              <div class="channel-label">Email</div>
+              <div class="channel-value">sidharth@writingco.in</div>
+            </div>
+          </div>
+          <div class="channel">
+            <div class="channel-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5.09 2 2 0 0 1 3.58 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.91a16 16 0 0 0 6 6l1.27-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 18.19v-.25"/></svg>
+            </div>
+            <div class="channel-info">
+              <div class="channel-label">Phone</div>
+              <div class="channel-value">+91 98200 00000</div>
+            </div>
+          </div>
+          <div class="channel">
+            <div class="channel-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="channel-info">
+              <div class="channel-label">Location</div>
+              <div class="channel-value">Mumbai, India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <input type="text" id="name" class="form-input" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" class="form-input" placeholder="your@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="subject">Subject</label>
+          <input type="text" id="subject" class="form-input" placeholder="What's this about?" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">Message</label>
+          <textarea id="message" class="form-textarea" placeholder="Tell me about your project…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="handleSubmit()">Send Message →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-logo">Sidharth.</div>
+    <div class="footer-copy">© 2024 — All rights reserved</div>
+    <div class="footer-socials">
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Substack</a>
+    </div>
+  </footer>
+
+  <!-- ── Scripts ── -->
+  <script>
+    // Nav scroll state
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    });
+    function closeMobile() {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Tabs
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('photos').classList.toggle('hidden', id !== 'photos');
+      document.getElementById('writing').classList.toggle('hidden', id !== 'writing');
+    }
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Form handler
+    function handleSubmit() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      const btn = document.querySelector('.btn-submit');
+      btn.textContent = 'Message Sent ✓';
+      btn.style.borderColor = 'var(--accent)';
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--accent)';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>
